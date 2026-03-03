@@ -20,5 +20,5 @@ to apply a specific style.
             description="Show all available LoRA adapters",
         ),
     ],
-    see_also=["generate:vector", "generate:ghibli"],
+    see_also=["generate:vector", "generate:anime"],
 )

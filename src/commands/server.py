@@ -12,7 +12,7 @@ Start the FastAPI server for OK Print Designs.
 
 The server provides REST endpoints for:
   - POST /generate/vector  - Generate vector graphics
-  - POST /generate/ghibli  - Convert to anime style
+  - POST /generate/anime   - Convert to anime style
   - GET  /loras/list       - List available LoRAs
   - GET  /health           - Health check
 

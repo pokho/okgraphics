@@ -9,12 +9,12 @@ from typing import Annotated
 import uvicorn
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
+from fastapi.responses import FileResponse, StreamingResponse
 from PIL import Image
 import yaml
 
 from src.models.loaders import ModelLoader
-from src.pipelines.vector import VectorPipeline, GhibliPipeline
+from src.pipelines.vector import VectorPipeline, AnimePipeline
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
@@ -22,13 +22,13 @@ logger = logging.getLogger(__name__)
 # Global instances
 model_loader: ModelLoader | None = None
 vector_pipeline: VectorPipeline | None = None
-ghibli_pipeline: GhibliPipeline | None = None
+anime_pipeline: AnimePipeline | None = None
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Manage application lifecycle."""
-    global model_loader, vector_pipeline, ghibli_pipeline
+    global model_loader, vector_pipeline, anime_pipeline
 
     logger.info("Starting OK Print Designs API...")
     logger.info("Architecture: SDXL + LoRA adapters")
@@ -36,7 +36,7 @@ async def lifespan(app: FastAPI):
 
     model_loader = ModelLoader("configs/config.yaml")
     vector_pipeline = VectorPipeline(model_loader)
-    ghibli_pipeline = GhibliPipeline(model_loader)
+    anime_pipeline = AnimePipeline(model_loader)
 
     logger.info("Ready - models load on first request")
 
@@ -82,7 +82,7 @@ async def root():
         "license": "OpenRAIL (commercial allowed)",
         "endpoints": {
             "vector": "/generate/vector",
-            "ghibli": "/generate/ghibli",
+            "anime": "/generate/anime",
             "loras": "/loras/list",
         },
     }
@@ -151,13 +151,13 @@ async def generate_vector(
         raise HTTPException(500, str(e))
 
 
-# --- Ghibli Style Transfer ---
+# --- Anime Style Transfer ---
 
 
-@app.post("/generate/ghibli")
-async def generate_ghibli(
+@app.post("/generate/anime")
+async def generate_anime(
     image: Annotated[UploadFile, File(...)],
-    style: Annotated[str, Form()] = "ghibli_style",
+    style: Annotated[str, Form()] = "anime_watercolor",
     strength: Annotated[float, Form()] = 0.70,
     steps: Annotated[int, Form()] = 35,
     seed: Annotated[int | None, Form()] = None,
@@ -165,23 +165,23 @@ async def generate_ghibli(
     return_image: Annotated[bool, Form()] = True,
 ):
     """
-    Convert photo to Ghibli/anime style.
+    Convert photo to hand-drawn anime style.
 
     - **image**: Source image file
-    - **style**: LoRA style (ghibli_style, anime_general)
+    - **style**: LoRA style (anime_watercolor, anime_general)
     - **strength**: Transform amount (0.5-0.9, default 0.70)
     - **steps**: Quality (25-40, default 35)
     - **seed**: For reproducibility
     - **prompt**: Additional style hints
     """
-    if not ghibli_pipeline:
+    if not anime_pipeline:
         raise HTTPException(503, "Pipeline not ready")
 
     try:
         data = await image.read()
         input_img = Image.open(io.BytesIO(data)).convert("RGB")
 
-        output = ghibli_pipeline.convert(
+        output = anime_pipeline.convert(
             input_image=input_img,
             style=style,
             strength=strength,

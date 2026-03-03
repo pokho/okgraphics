@@ -23,7 +23,7 @@ The models used by this project have their own licenses. You must comply with bo
 | SDXL Base 1.0 | OpenRAIL++ | ✅ Yes | With restrictions |
 | LineArt LoRA | OpenRAIL | ✅ Yes | With restrictions |
 | Sticker LoRA | OpenRAIL | ✅ Yes | With restrictions |
-| Ghibli Style LoRA | OpenRAIL | ✅ Yes | With restrictions |
+| Watercolor Anime LoRA | OpenRAIL | ✅ Yes | With restrictions |
 | Pastel Anime LoRA | OpenRAIL | ✅ Yes | With restrictions |
 
 ### Detailed License Information
@@ -49,11 +49,11 @@ The models used by this project have their own licenses. You must comply with bo
 - **Commercial Use**: ✅ Allowed with restrictions
 - **Purpose**: Sticker/illustration style graphics
 
-#### Studio Ghibli Style LoRA for SDXL
+#### Watercolor Anime LoRA for SDXL
 - **License**: OpenRAIL
 - **Repository**: https://huggingface.co/artificialguybr/StudioGhibli.Redmond-Style-Lora-For-SDXL
 - **Commercial Use**: ✅ Allowed with restrictions
-- **Purpose**: Studio Ghibli anime style conversion
+- **Purpose**: Hand-drawn anime with soft watercolor aesthetic
 
 #### Pastel Anime Style LoRA
 - **License**: OpenRAIL

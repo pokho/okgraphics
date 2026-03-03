@@ -34,12 +34,12 @@ loras:
     scale: 0.80
     description: "Sticker/illustration style"
 
-  # For Ghibli anime conversion
-  ghibli_style:
+  # For hand-drawn anime conversion (Ghibli-inspired)
+  anime_watercolor:
     repo_id: "artificialguybr/StudioGhibli.Redmond-Style-Lora-For-SDXL"
-    trigger_word: "Studio Ghibli style"
+    trigger_word: "hand-drawn anime, soft watercolor, Studio Ghibli inspired"
     scale: 0.85
-    description: "Studio Ghibli anime style"
+    description: "Hand-drawn anime with soft watercolor aesthetic"
 
   # Alternative anime style
   anime_general:
@@ -71,12 +71,12 @@ generation:
     output_format: "PNG"
     lora: "vector_flat"
 
-  # Ghibli style transfer (img2img)
-  ghibli_transfer:
+  # Hand-drawn anime transfer (img2img)
+  anime_transfer:
     strength: 0.70  # How much to transform
     num_inference_steps: 35
     guidance_scale: 7.5
-    lora: "ghibli_style"
+    lora: "anime_watercolor"
     output_format: "PNG"
 
   # Lighter anime conversion
@@ -90,14 +90,14 @@ generation:
 # Negative prompts for clean outputs
 negative_prompts:
   vector: "photorealistic, photo, 3d render, gradient, complex, messy, watermark, signature, blurry"
-  ghibli: "photorealistic, photo, realistic, 3d render, ugly, deformed, bad anatomy, watermark"
+  anime: "photorealistic, photo, realistic, 3d render, ugly, deformed, bad anatomy, watermark"
 
 # Output settings
 output:
   base_dir: "outputs"
   subdirs:
     vector: "vector"
-    ghibli: "ghibli"
+    anime: "anime"
   naming:
     include_timestamp: true
     include_prompt: true

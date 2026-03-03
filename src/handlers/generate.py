@@ -4,7 +4,7 @@ import logging
 from pathlib import Path
 
 from src.models.loaders import ModelLoader
-from src.pipelines.vector import VectorPipeline, GhibliPipeline
+from src.pipelines.vector import VectorPipeline, AnimePipeline
 
 logger = logging.getLogger(__name__)
 
@@ -61,9 +61,9 @@ def handle_vector(
     print("Done!")
 
 
-def handle_ghibli(
+def handle_anime(
     input: str,
-    style: str = "ghibli_style",
+    style: str = "anime_watercolor",
     strength: float = 0.70,
     steps: int = 35,
     guidance: float = 7.5,
@@ -72,9 +72,9 @@ def handle_ghibli(
     output: str | None = None,
     no_save: bool = False,
 ) -> None:
-    """Convert a photo to Ghibli/anime style."""
+    """Convert a photo to hand-drawn anime style."""
     loader = _get_loader()
-    pipeline = GhibliPipeline(loader)
+    pipeline = AnimePipeline(loader)
 
     input_path = Path(input)
     if not input_path.exists():

@@ -39,12 +39,12 @@ LORAS = {
         "size_mb": 144,
         "description": "Sticker/illustration style",
     },
-    "ghibli-style": {
+    "anime-watercolor": {
         "repo_id": "artificialguybr/StudioGhibli.Redmond-Style-Lora-For-SDXL",
         "license": "OpenRAIL",
         "commercial": True,
         "size_mb": 144,
-        "description": "Studio Ghibli anime style",
+        "description": "Hand-drawn anime with soft watercolor aesthetic",
     },
     "pastel-anime": {
         "repo_id": "Linaqruf/pastel-anime-style-lora",

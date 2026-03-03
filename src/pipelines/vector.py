@@ -130,18 +130,18 @@ class VectorPipeline:
         image.save(path, dpi=(dpi, dpi), optimize=True)
 
 
-class GhibliPipeline:
+class AnimePipeline:
     """
-    Convert photos to Ghibli/anime style using SDXL img2img + LoRA.
+    Convert photos to hand-drawn anime style using SDXL img2img + LoRA.
 
     Uses image-to-image transformation to preserve composition
     while applying the anime style.
     """
 
     STYLE_PROMPTS = {
-        "ghibli_style": (
-            "Studio Ghibli style, anime, hand-drawn animation, "
-            "soft watercolor, vibrant colors, Hayao Miyazaki, masterpiece"
+        "anime_watercolor": (
+            "hand-drawn anime, soft watercolor aesthetic, "
+            "vibrant colors, beautiful illustration, masterpiece"
         ),
         "anime_general": (
             "anime style, detailed illustration, pastel colors, "
@@ -161,7 +161,7 @@ class GhibliPipeline:
     def convert(
         self,
         input_image: Image.Image | str,
-        style: str = "ghibli_style",
+        style: str = "anime_watercolor",
         strength: float | None = None,
         steps: int | None = None,
         guidance: float | None = None,
@@ -170,11 +170,11 @@ class GhibliPipeline:
         custom_prompt: str | None = None,
     ) -> Image.Image:
         """
-        Convert a photo to anime/Ghibli style.
+        Convert a photo to hand-drawn anime style.
 
         Args:
             input_image: PIL Image or path to image
-            style: LoRA style to apply (ghibli_style, anime_general)
+            style: LoRA style to apply (anime_watercolor, anime_general)
             strength: Transformation strength 0.0-1.0 (default: 0.70)
             steps: Inference steps (default: 35)
             guidance: Guidance scale (default: 7.5)
@@ -190,7 +190,7 @@ class GhibliPipeline:
             input_image = Image.open(input_image).convert("RGB")
 
         # Get preset
-        preset = self.config.get("generation", {}).get("ghibli_transfer", {})
+        preset = self.config.get("generation", {}).get("anime_transfer", {})
         strength = strength if strength is not None else preset.get("strength", 0.70)
         steps = steps or preset.get("num_inference_steps", 35)
         guidance = guidance or preset.get("guidance_scale", 7.5)
@@ -207,7 +207,7 @@ class GhibliPipeline:
             prompt = f"{trigger_word}, {style_prompt}"
 
         # Negative prompt
-        negative = self.config.get("negative_prompts", {}).get("ghibli", "")
+        negative = self.config.get("negative_prompts", {}).get("anime", "")
 
         logger.info(f"Converting to {style}...")
         logger.info(f"Strength: {strength}, Steps: {steps}")
@@ -240,7 +240,7 @@ class GhibliPipeline:
 
         # Save
         if save_output:
-            out_dir = self.output_dir / "ghibli"
+            out_dir = self.output_dir / "anime"
             out_dir.mkdir(parents=True, exist_ok=True)
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             output_path = out_dir / f"{timestamp}_{style}.png"
@@ -252,7 +252,7 @@ class GhibliPipeline:
     def convert_batch(
         self,
         inputs: list[str],
-        style: str = "ghibli_style",
+        style: str = "anime_watercolor",
         **kwargs: Any,
     ) -> list[Image.Image]:
         """Convert multiple images."""

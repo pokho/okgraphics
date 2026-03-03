@@ -1,11 +1,11 @@
 # OK Print Designs
 
-Local AI-powered print design system for generating vector-style graphics and Ghibli-style image conversions using SDXL + LoRA adapters.
+Local AI-powered print design system for generating vector-style graphics and hand-drawn anime image conversions using SDXL + LoRA adapters.
 
 ## Features
 
 - **Vector Graphics Generation**: Create print-ready graphics at 300 DPI
-- **Ghibli Style Transfer**: Convert photos to anime-style illustrations
+- **Anime Style Transfer**: Convert photos to hand-drawn anime illustrations
 - **100% Local**: Runs entirely on your machine, no external APIs
 - **LoRA Adapters**: Swap styles without loading multiple base models
 - **Commercial-Friendly**: SDXL uses OpenRAIL license (commercial allowed)
@@ -17,7 +17,7 @@ Single base model (SDXL) with LoRA style adapters:
 | Purpose | Base Model | LoRA Adapter |
 |---------|------------|--------------|
 | Vector Graphics | SDXL Base 1.0 | LineArt / Sticker |
-| Ghibli Style | SDXL Base 1.0 | Studio Ghibli Style |
+| Anime Style | SDXL Base 1.0 | Watercolor Anime |
 | Anime Style | SDXL Base 1.0 | Pastel Anime |
 
 **Benefits:**
@@ -35,7 +35,7 @@ Single base model (SDXL) with LoRA style adapters:
 
 ```bash
 # Clone and setup
-git clone https://github.com/yourusername/okgraphics.git
+git clone https://github.com/pokho/okgraphics.git
 cd okgraphics
 python -m venv .venv
 source .venv/bin/activate
@@ -47,8 +47,8 @@ python scripts/download_models.py
 # Generate a vector graphic
 python scripts/cli.py generate:vector "minimalist mountain landscape"
 
-# Convert photo to Ghibli style
-python scripts/cli.py generate:ghibli photo.jpg --style ghibli_style
+# Convert photo to anime style
+python scripts/cli.py generate:anime photo.jpg --style anime_watercolor
 
 # Start the API server
 python scripts/cli.py server:start
@@ -59,7 +59,7 @@ python scripts/cli.py server:start
 | Command | Description |
 |---------|-------------|
 | `generate:vector <prompt>` | Generate vector-style graphic |
-| `generate:ghibli <image>` | Convert image to anime style |
+| `generate:anime <image>` | Convert image to anime style |
 | `server:start` | Start API server |
 | `model:list` | List available LoRA adapters |
 
@@ -70,7 +70,7 @@ Run `okgraphics <command> --help` for detailed options.
 | Endpoint | Method | Description |
 |----------|--------|-------------|
 | `/generate/vector` | POST | Generate vector-style graphic |
-| `/generate/ghibli` | POST | Convert image to Ghibli style |
+| `/generate/anime` | POST | Convert image to anime style |
 | `/loras/list` | GET | List available LoRAs |
 | `/health` | GET | Health check |
 
@@ -84,10 +84,10 @@ curl -X POST http://localhost:8000/generate/vector \
   -F "width=2400" \
   -F "height=3200"
 
-# Convert to Ghibli style
-curl -X POST http://localhost:8000/generate/ghibli \
+# Convert to anime style
+curl -X POST http://localhost:8000/generate/anime \
   -F "image=@photo.jpg" \
-  -F "style=ghibli_style" \
+  -F "style=anime_watercolor" \
   -F "strength=0.70"
 ```
 
@@ -108,9 +108,9 @@ loras:
     trigger_word: "line art, vector, flat design"
     scale: 0.85
 
-  ghibli_style:
+  anime_watercolor:
     repo_id: "artificialguybr/StudioGhibli.Redmond-Style-Lora-For-SDXL"
-    trigger_word: "Studio Ghibli style"
+    trigger_word: "hand-drawn anime, soft watercolor"
     scale: 0.85
 
 # Generation presets
@@ -157,7 +157,7 @@ See [docs/HARDWARE.md](docs/HARDWARE.md) for detailed requirements and optimizat
 |-------|---------|----------------|
 | SDXL Base 1.0 | OpenRAIL | ✅ Yes |
 | LineArt LoRA | OpenRAIL | ✅ Yes |
-| Ghibli Style LoRA | OpenRAIL | ✅ Yes |
+| Watercolor Anime LoRA | OpenRAIL | ✅ Yes |
 
 See [docs/LICENSES.md](docs/LICENSES.md) for full details.
 
@@ -165,7 +165,7 @@ See [docs/LICENSES.md](docs/LICENSES.md) for full details.
 
 Apache 2.0 with Commons Clause - Free for personal and non-commercial use.
 
-For commercial use, please contact us for licensing terms.
+For commercial use, please contact: info@okconsulting.work
 
 **Note:** This license applies to the code only. Model weights have their own licenses - see [docs/LICENSES.md](docs/LICENSES.md).
 

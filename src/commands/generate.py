@@ -96,18 +96,18 @@ Default size (2400x3200) produces an 8x10.67" print at 300 DPI.
             description="Generate with custom settings and seed",
         ),
     ],
-    see_also=["generate:ghibli", "model:list"],
+    see_also=["generate:anime", "model:list"],
 )
 
-# --- Ghibli Style Transfer ---
+# --- Anime Style Transfer ---
 
-ghibli_command = CommandSchema(
-    name="generate:ghibli",
-    aliases=["ghibli", "gen:ghibli", "style:ghibli"],
+anime_command = CommandSchema(
+    name="generate:anime",
+    aliases=["anime", "gen:anime", "style:anime"],
     category="Generation",
-    description="Convert photo to Ghibli/anime style",
+    description="Convert photo to hand-drawn anime style",
     long_description="""
-Convert photos to anime/Ghibli style using SDXL img2img + LoRA adapters.
+Convert photos to hand-drawn anime style using SDXL img2img + LoRA adapters.
 
 Uses image-to-image transformation to preserve composition while applying
 the anime style. Strength controls how much the image is transformed
@@ -115,7 +115,7 @@ the anime style. Strength controls how much the image is transformed
 
 Images larger than 1536px are automatically resized for optimal quality.
 """,
-    handler="src.handlers.generate:handle_ghibli",
+    handler="src.handlers.generate:handle_anime",
     positional=[
         CommandOption(
             name="input",
@@ -127,9 +127,9 @@ Images larger than 1536px are automatically resized for optimal quality.
     options=[
         CommandOption(
             name="style",
-            description="LoRA style (ghibli_style, anime_general, vector_flat)",
+            description="LoRA style (anime_watercolor, anime_general, vector_flat)",
             type="string",
-            default="ghibli_style",
+            default="anime_watercolor",
             aliases=["s"],
         ),
         CommandOption(
@@ -180,15 +180,15 @@ Images larger than 1536px are automatically resized for optimal quality.
     ],
     examples=[
         CommandExample(
-            command='generate:ghibli photo.jpg',
-            description="Convert photo to Ghibli style (default settings)",
+            command='generate:anime photo.jpg',
+            description="Convert photo to anime style (default settings)",
         ),
         CommandExample(
-            command='ghibli portrait.png --style anime_general --strength 0.55',
+            command='anime portrait.png --style anime_general --strength 0.55',
             description="Lighter anime conversion",
         ),
         CommandExample(
-            command='style:ghibli landscape.jpg --strength 0.85 --prompt "sunset lighting"',
+            command='style:anime landscape.jpg --strength 0.85 --prompt "sunset lighting"',
             description="Strong conversion with custom prompt",
         ),
     ],

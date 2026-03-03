@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Local AI-powered print design system for vector graphics and style transfer"
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
+license = { text = "Apache-2.0 WITH Commons-Clause" }
 authors = [{ name = "okprintdesigns" }]
 dependencies = [
     "torch>=2.1.0",

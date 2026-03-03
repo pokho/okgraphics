@@ -1,8 +1,20 @@
-# Model Licenses
+# Licenses
 
-This document summarizes the licenses for all models used in OK Print Designs.
+This document summarizes the licenses for OK Print Designs.
 
-## Summary
+## Code License
+
+**OK Print Designs Code**: Apache 2.0 with Commons Clause
+
+- Free for personal and non-commercial use
+- Commercial use requires a license - contact for terms
+- See [../LICENSE](../LICENSE) for full text
+
+---
+
+## Model Licenses
+
+The models used by this project have their own licenses. You must comply with both the code license above AND the applicable model licenses.
 
 | Model | License | Commercial Use | Notes |
 |-------|---------|----------------|-------|

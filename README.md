@@ -101,7 +101,11 @@ okprintdesigns/
 
 ## License
 
-MIT License - Free for commercial and personal use.
+Apache 2.0 with Commons Clause - Free for personal and non-commercial use.
+
+For commercial use, please contact us for licensing terms.
+
+**Note:** This license applies to the code only. Model weights (SDXL, LoRAs) have their own licenses - see [docs/LICENSES.md](docs/LICENSES.md).
 
 ## Acknowledgments
 

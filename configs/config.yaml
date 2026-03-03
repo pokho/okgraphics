@@ -1,0 +1,112 @@
+# OK Print Designs Configuration
+# Simplified: SDXL-only architecture with LoRAs
+# License: OpenRAIL - Commercial use allowed
+
+app:
+  name: "OK Print Designs"
+  host: "0.0.0.0"
+  port: 8000
+  debug: false
+
+# Single base model for all use cases
+# SDXL Base - OpenRAIL License (commercial allowed)
+base_model:
+  repo_id: "stabilityai/stable-diffusion-xl-base-1.0"
+  dtype: "float16"
+  enable_model_cpu_offload: true
+  license: "OpenRAIL"
+  commercial_use: true
+
+# LoRA adapters for different styles
+# All use the same SDXL base - just swap the LoRA
+loras:
+  # For vector/flat print graphics
+  vector_flat:
+    repo_id: "artificialguybr/LineArt-Lora-for-SDXL"
+    trigger_word: "line art, vector, flat design"
+    scale: 0.85
+    description: "Clean line art and vector-style graphics"
+
+  # Alternative: More illustration-focused
+  vector_illustration:
+    repo_id: "artificialguybr/StickerLoraForSDXL"
+    trigger_word: "sticker, flat illustration"
+    scale: 0.80
+    description: "Sticker/illustration style"
+
+  # For Ghibli anime conversion
+  ghibli_style:
+    repo_id: "artificialguybr/StudioGhibli.Redmond-Style-Lora-For-SDXL"
+    trigger_word: "Studio Ghibli style"
+    scale: 0.85
+    description: "Studio Ghibli anime style"
+
+  # Alternative anime style
+  anime_general:
+    repo_id: "Linaqruf/pastel-anime-style-lora"
+    trigger_word: "pastel anime style"
+    scale: 0.80
+    description: "General pastel anime aesthetic"
+
+# Generation presets
+generation:
+  # Vector graphics for print (300 DPI)
+  vector_print:
+    width: 2400   # 8 inches at 300 DPI
+    height: 3200  # 10.67 inches at 300 DPI
+    num_inference_steps: 30
+    guidance_scale: 7.5
+    dpi: 300
+    output_format: "PNG"
+    lora: "vector_flat"
+    extra_prompt: "clean lines, simple colors, professional design, print ready"
+
+  # Web graphics (smaller, 72 DPI)
+  vector_web:
+    width: 1024
+    height: 1024
+    num_inference_steps: 25
+    guidance_scale: 7.5
+    dpi: 72
+    output_format: "PNG"
+    lora: "vector_flat"
+
+  # Ghibli style transfer (img2img)
+  ghibli_transfer:
+    strength: 0.70  # How much to transform
+    num_inference_steps: 35
+    guidance_scale: 7.5
+    lora: "ghibli_style"
+    output_format: "PNG"
+
+  # Lighter anime conversion
+  anime_light:
+    strength: 0.55
+    num_inference_steps: 30
+    guidance_scale: 7.0
+    lora: "anime_general"
+    output_format: "PNG"
+
+# Negative prompts for clean outputs
+negative_prompts:
+  vector: "photorealistic, photo, 3d render, gradient, complex, messy, watermark, signature, blurry"
+  ghibli: "photorealistic, photo, realistic, 3d render, ugly, deformed, bad anatomy, watermark"
+
+# Output settings
+output:
+  base_dir: "outputs"
+  subdirs:
+    vector: "vector"
+    ghibli: "ghibli"
+  naming:
+    include_timestamp: true
+    include_prompt: true
+    max_prompt_length: 40
+
+# Hardware settings
+hardware:
+  device: "cuda"
+  memory_fraction: 0.9
+  enable_attention_slicing: true
+  enable_vae_slicing: true
+  enable_xformers: true

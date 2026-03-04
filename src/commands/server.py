@@ -4,13 +4,17 @@ from src.cli.types import CommandSchema, CommandOption, CommandExample
 
 server_start_command = CommandSchema(
     name="server:start",
-    aliases=["serve", "api"],
+    aliases=["serve", "api", "web"],
     category="Server",
-    description="Start the API server",
+    description="Start the API server with web UI",
     long_description="""
 Start the FastAPI server for OK Print Designs.
 
-The server provides REST endpoints for:
+The server provides:
+  - Web UI at /ui (user-friendly interface)
+  - API docs at /docs (Swagger UI)
+
+REST endpoints:
   - POST /generate/vector  - Generate vector graphics
   - POST /generate/anime   - Convert to anime style
   - GET  /loras/list       - List available LoRAs
@@ -43,7 +47,7 @@ Models load on first request to minimize startup time.
     examples=[
         CommandExample(
             command="server:start",
-            description="Start server on default port 8000",
+            description="Start server, then open http://localhost:8000/ui",
         ),
         CommandExample(
             command="serve --port 3000 --reload",

@@ -10,6 +10,7 @@ import uvicorn
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
 from PIL import Image
 import yaml
 
@@ -33,6 +34,7 @@ async def lifespan(app: FastAPI):
     logger.info("Starting OK Print Designs API...")
     logger.info("Architecture: SDXL + LoRA adapters")
     logger.info("License: OpenRAIL (commercial allowed)")
+    logger.info("Web UI: http://localhost:8000/ui")
 
     model_loader = ModelLoader("configs/config.yaml")
     vector_pipeline = VectorPipeline(model_loader)
@@ -61,6 +63,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Serve static files for web UI
+STATIC_DIR = Path(__file__).parent / "static"
+if STATIC_DIR.exists():
+    app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+
+
+@app.get("/ui", response_class=FileResponse)
+async def web_ui():
+    """Serve the web UI."""
+    index_path = STATIC_DIR / "index.html"
+    if not index_path.exists():
+        raise HTTPException(404, "Web UI not found")
+    return FileResponse(index_path)
+
 
 @app.get("/health")
 async def health():
@@ -80,6 +96,7 @@ async def root():
         "version": "0.1.0",
         "architecture": "SDXL + LoRA",
         "license": "OpenRAIL (commercial allowed)",
+        "web_ui": "/ui",
         "endpoints": {
             "vector": "/generate/vector",
             "anime": "/generate/anime",

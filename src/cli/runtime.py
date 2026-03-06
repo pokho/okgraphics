@@ -2,11 +2,14 @@
 
 import argparse
 import importlib
+import logging
 import sys
 from collections import defaultdict
 from typing import Any, Callable
 
 from src.cli.types import CommandSchema
+
+logger = logging.getLogger("okgraphics.cli")
 
 
 def generate_help(commands: list[CommandSchema], prog: str = "okgraphics") -> str:
@@ -156,6 +159,7 @@ def execute_command(
     # Check deprecation
     if schema.deprecated:
         replacement = f" Use '{schema.deprecated_by}' instead." if schema.deprecated_by else ""
+        logger.warning(f"Deprecated command '{schema.name}' used.{replacement}")
         print(f"Warning: '{schema.name}' is deprecated.{replacement}", file=sys.stderr)
 
     # Build parser and parse
@@ -215,20 +219,27 @@ def run_cli(
     # Find command
     schema = command_map.get(cmd_name)
     if not schema:
+        logger.warning(f"Unknown command attempted: {cmd_name}")
         print(f"Unknown command: {cmd_name}", file=sys.stderr)
         print(f"Run '{prog} --help' for available commands.", file=sys.stderr)
         return 1
 
+    logger.info(f"Running command: {cmd_name} {' '.join(sys.argv[2:])}".strip())
+
     # Execute
     try:
         result = execute_command(schema, sys.argv[2:], prog)
+        logger.info(f"Command '{cmd_name}' completed successfully")
         return 0 if result is None else 0
     except ValueError as e:
+        logger.error(f"Validation error: {e}")
         print(f"Error: {e}", file=sys.stderr)
         return 1
     except KeyboardInterrupt:
+        logger.info("Cancelled by user")
         print("\nCancelled.", file=sys.stderr)
         return 130
     except Exception as e:
+        logger.exception(f"Unexpected error: {e}")
         print(f"Error: {e}", file=sys.stderr)
         return 1

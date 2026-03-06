@@ -1,7 +1,6 @@
 """FastAPI server for OK Print Designs - SDXL + LoRA."""
 
 import io
-import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Annotated
@@ -16,9 +15,10 @@ import yaml
 
 from src.models.loaders import ModelLoader
 from src.pipelines.vector import VectorPipeline, AnimePipeline
+from src.logging_config import get_logger, setup_logging
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-logger = logging.getLogger(__name__)
+setup_logging()
+logger = get_logger("api")
 
 # Global instances
 model_loader: ModelLoader | None = None

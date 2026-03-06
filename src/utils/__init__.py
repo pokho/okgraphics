@@ -1,7 +1,7 @@
 """OK Print Designs package."""
 
 from src.models.loaders import ModelLoader
-from src.pipelines.vector import VectorPipeline, GhibliPipeline
+from src.pipelines.vector import VectorPipeline, AnimePipeline
 from src.utils.image import (
     calculate_dimensions_for_dpi,
     calculate_inches_from_pixels,
@@ -14,7 +14,7 @@ from src.utils.image import (
 __all__ = [
     "ModelLoader",
     "VectorPipeline",
-    "GhibliPipeline",
+    "AnimePipeline",
     "calculate_dimensions_for_dpi",
     "calculate_inches_from_pixels",
     "resize_for_print",

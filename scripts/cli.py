@@ -21,10 +21,12 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.cli.runtime import run_cli
 from src.commands import ALL_COMMANDS
+from src.logging_config import setup_logging
 
 
 def main() -> int:
     """Main CLI entry point."""
+    setup_logging()
     return run_cli(
         commands=ALL_COMMANDS,
         prog="okgraphics",

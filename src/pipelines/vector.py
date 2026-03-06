@@ -1,6 +1,5 @@
 """Simplified pipelines - SDXL only with LoRA adapters."""
 
-import logging
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -9,8 +8,9 @@ import torch
 from PIL import Image
 
 from src.models.loaders import ModelLoader
+from src.logging_config import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger("pipeline")
 
 
 class VectorPipeline:

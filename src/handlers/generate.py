@@ -1,12 +1,12 @@
 """Handlers for generation commands."""
 
-import logging
 from pathlib import Path
 
 from src.models.loaders import ModelLoader
 from src.pipelines.vector import VectorPipeline, AnimePipeline
+from src.logging_config import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger("generate")
 
 # Shared model loader (lazy loaded)
 _loader: ModelLoader | None = None
@@ -35,6 +35,7 @@ def handle_vector(
     loader = _get_loader()
     pipeline = VectorPipeline(loader)
 
+    logger.info(f"Generating vector: prompt='{prompt[:50]}...' lora={lora} size={width}x{height}")
     print(f"Generating: {prompt}")
     print(f"Size: {width}x{height}")
     print(f"LoRA: {lora}")
@@ -56,8 +57,10 @@ def handle_vector(
 
     if output:
         image.save(output)
+        logger.info(f"Saved to: {output}")
         print(f"Saved to: {output}")
 
+    logger.info("Vector generation complete")
     print("Done!")
 
 
@@ -78,8 +81,10 @@ def handle_anime(
 
     input_path = Path(input)
     if not input_path.exists():
+        logger.error(f"Input file not found: {input}")
         raise ValueError(f"Input file not found: {input}")
 
+    logger.info(f"Converting to anime: input={input} style={style} strength={strength}")
     print(f"Converting: {input}")
     print(f"Style: {style}")
     print(f"Strength: {strength}")
@@ -103,6 +108,8 @@ def handle_anime(
 
     if output:
         image.save(output)
+        logger.info(f"Saved to: {output}")
         print(f"Saved to: {output}")
 
+    logger.info("Anime conversion complete")
     print("Done!")

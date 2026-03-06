@@ -25,7 +25,7 @@ dependencies = [
     "controlnet-aux>=0.0.7",
     "invisible-watermark>=0.2.0",
     "sentencepiece>=0.2.0",
-    " optimum-quanto>=0.2.0; sys_platform == 'linux'",
+    "pyyaml>=6.0.0",
 ]
 
 [project.optional-dependencies]
